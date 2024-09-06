@@ -33,6 +33,9 @@ In the domain of DTR, Researchers have chosen different techniques to find or to
 For schizophrenia, researchers has used stastical methods  \cite{shortreed2012estimating} to compare different treatments. Else Researchers used linear regression models to predict the survival benefit of their new schedule. Thanks to this predictive model, they focused on refining radiation schedules for patients \cite{ayala2021optimal}.
 
 
+
+
+
 ## Modeling Cellular Environments
 
 In favor of ABM \cite{jalalimanesh2017simulation}
@@ -50,6 +53,12 @@ an agent-based model which can predict the response of vascular solid tumor to i
 agent-based simulation methodology was chosen due to its flexibility for biological modeling and also its power for
 modeling heterogeneity)
 
+Modeling cancer environment \cite{opasic2020cancersim} or also a agent based model coded where rules are frozen, cannot add new rules to specefic rules \cite{lopez2014estimating} used their own cell based agent model for estimating a radiotherapy dose treatment.
+GPU PhysiCell \cite{stack2022openacc}, a part of PhysiCell code is in the GPU and the times speed up, is an ongoing project designed to migrate portions of its serial CPU code to run on GPUs using OpenACC.
+GPU approaches very promising models, decrease the computionnal time,  that can lead more cells and more nearby to real biological models. Agent Based Models on GPU \cite{richmond2023flame} highly development or Gell \cite{du2023gell} which offered more than 150 speed up compared to PHysiCell mutli core \cite{du2023gell}. However Gell is less versatile and offers less possibility to build relevant biological models but still a good example of optimized software where performance is primordial. While Flame GPU 2 \cite{richmond2023flame}, he is a tradeoff between versatility and rapidity. In micro Biology, researchers mainly use PhysiCell due to the versatility and the easiest way to use it, compared to Gell or FLAMEGPU2, PhysiCell offered a no code model creation software called PhysiCell Studio.
+
+## Agent Based Model and Reinforcement Learning
+Given an agent based model software ( NetLOGO) & Q-Learning algorithm researchers \cite{jalalimanesh2017simulation} had proposed a new approach, they used Q-Learning to optimize the treatment. The reinforcement learning algorithm has the goal to treat the disease without overusing radiotherapy in order to avoid healthy tissue.
 
 ## Bibliography
 @article{zeng2022optimizing,
@@ -119,6 +128,70 @@ modeling heterogeneity)
   pages={4678--4721},
   year={2008},
   publisher={Wiley Online Library}
+}
+
+@article{jalalimanesh2017simulation,
+  title={Simulation-based optimization of radiotherapy: Agent-based modeling and reinforcement learning},
+  author={Jalalimanesh, Ammar and Haghighi, Hamidreza Shahabi and Ahmadi, Abbas and Soltani, Madjid},
+  journal={Mathematics and Computers in Simulation},
+  volume={133},
+  pages={235--248},
+  year={2017},
+  publisher={Elsevier}
+}
+
+@article{opasic2020cancersim,
+  title={CancerSim: a cancer simulation package for Python 3},
+  author={Opasic, Luka and Scott, Jacob G and Traulsen, Arne and Fortmann-Grote, Carsten},
+  journal={Journal of Open Source Software},
+  volume={5},
+  number={53},
+  pages={2436},
+  year={2020}
+}
+
+@article{lopez2014estimating,
+  title={Estimating dose painting effects in radiotherapy: a mathematical model},
+  author={L{\'o}pez Alfonso, Juan Carlos and Jagiella, Nick and N{\'u}{\~n}ez, Luis and Herrero, Miguel A and Drasdo, Dirk},
+  journal={PloS one},
+  volume={9},
+  number={2},
+  pages={e89380},
+  year={2014},
+  publisher={Public Library of Science San Francisco, USA}
+}
+
+@article{stack2022openacc,
+  title={OpenACC acceleration of an agent-based biological simulation framework},
+  author={Stack, Matt and Macklin, Paul and Searles, Robert and Chandrasekaran, Sunita},
+  journal={Computing in Science \& Engineering},
+  volume={24},
+  number={5},
+  pages={53--63},
+  year={2022},
+  publisher={IEEE}
+}
+
+@article{richmond2023flame,
+  title={FLAME GPU 2: A framework for flexible and performant agent based simulation on GPUs},
+  author={Richmond, Paul and Chisholm, Robert and Heywood, Peter and Chimeh, Mozhgan Kabiri and Leach, Matthew},
+  journal={Software: Practice and Experience},
+  volume={53},
+  number={8},
+  pages={1659--1680},
+  year={2023},
+  publisher={Wiley Online Library}
+}
+
+@article{du2023gell,
+  title={Gell: A GPU-powered 3D hybrid simulator for large-scale multicellular system},
+  author={Du, Jiayi and Zhou, Yu and Jin, Lihua and Sheng, Ke},
+  journal={Plos one},
+  volume={18},
+  number={7},
+  pages={e0288721},
+  year={2023},
+  publisher={Public Library of Science San Francisco, CA USA}
 }
 
 @article{jalalimanesh2017simulation,
