@@ -9,8 +9,23 @@ An example of successful Dynamic Treatment Regime where authours \cite{zeng2022o
 
 
 ## Dynamic Treatment Regime a particular sub problem of Reinforcement Learning
-Reinforcement Learning and Treatment is called Dynamic Treatment Regime, Reinforcement Learning is a part of machine learning where the objective is given observations to find best actions in order to maximize an expected cumulative reward.  The observation in a treatment can be the vitals
 
+In the context of healthcare, Reinforcement Learning (RL) applied to treatment decisions is known as the Dynamic Treatment Regime. RL, a branch of machine learning, aims to determine the best actions based on observations to maximize an expected cumulative reward. In medical treatments, these observations can include vital signs, images, graphs, or tabular data.
+
+A key concept in RL is the policy, which consists of stimulus-response rules mapping each environmental state to a set of potential actions from which the agent can choose. In its simplest form, the policy may be implemented via a lookup table, but more sophisticated implementations require complex computations, such as search algorithms. The policy is critical for determining how the system functions.
+
+The reward signal represents the agent's goal, guiding its actions by providing feedback based on changes in the environment. As the agent interacts with its surroundings and receives rewards, it strives to maximize the cumulative reward over time. This reward system is the primary mechanism for updating the policy: if an action results in a poor reward, the agent may choose a different action in the same situation in future interactions to explore alternative strategies. In general, the reward signal is a stochastic function, dependent on the state of the environment and the agent’s chosen action.
+
+While the reward signal provides immediate feedback on how successful the last action was, it's often more effective to follow strategies that yield greater benefits in the medium to long term. This is where the Value Function comes into play in Reinforcement Learning (RL). It defines "what is good in the long run" by estimating the total rewards the agent is expected to accumulate over time after leaving a particular state. Instead of selecting actions based solely on immediate rewards, the agent chooses those associated with the highest values. Calculating these values is more complex because, unlike rewards, which are received directly from the environment, values must be predicted based on the agent's past experiences with the environment. Efficiently estimating these values is the core challenge of most RL algorithms.
+
+Another key component of an RL system is the Model, which represents how the environment functions. For instance, given a specific state and a chosen action, the model can be used to predict the next state and the associated reward. RL methods that use models to solve problems are referred to as model-based methods. In contrast, model-free methods rely on trial-and-error learning, without the need for an explicit model, to determine the optimal policy.
+
+
+
+By applying RL principles to Dynamic Treatment Regimes, treatment plans can be optimized to improve patient outcomes by continuously adjusting based on real-time feedback.
+
+
+Given an agent based model software ( NetLOGO) & Q-Learning algorithm researchers \cite{jalalimanesh2017simulation} had proposed a new approach, they used Q-Learning to optimize the treatment. The reinforcement learning algorithm has the goal to treat the disease without overusing radiotherapy in order to avoid healthy tissue.
 ## Offline vs Online
 When a simulator is already created:
 1. **Online Reinforcement Learning:**
@@ -29,6 +44,13 @@ When there is no simulator and there are already data/ datasets available.
 
 
 ## Dynamic Treatment Regime without RL
+It exists different approaches, one approach which is Augmented INverse Probability Weighted Estimators (AIPWE)
+
+Finish AIPWE
+Try to speak a little bit about that
+Propose Neural AIPWE
+To Do [Model based](https://link.springer.com/content/pdf/10.1007/s11432-022-3696-5.pdf)
+
 In the domain of DTR, Researchers have chosen different techniques to find or to estimate better dynamic treatment regime. A pioneer article \cite{robins2008estimation} in the domain of dynamic treatment regime, 
 For schizophrenia, researchers has used stastical methods  \cite{shortreed2012estimating} to compare different treatments. Else Researchers used linear regression models to predict the survival benefit of their new schedule. Thanks to this predictive model, they focused on refining radiation schedules for patients \cite{ayala2021optimal}.
 
@@ -38,27 +60,18 @@ For schizophrenia, researchers has used stastical methods  \cite{shortreed2012es
 
 ## Modeling Cellular Environments
 
-In favor of ABM \cite{jalalimanesh2017simulation}
-(Agent-based modeling is among the bottom-up modeling approaches. In this process agents interact with
-environment and each other. The overall behavior of the system arises from the collective local behavior of the
-involved entities [8]. In agent-based models more detailed description of the organism is required and the population
-dynamics may eventually be extracted from the dynamic response of each entity [27]. Agent-based modeling offers a
-natural description of a system [4]. For instance, it is more natural to describe how an animal cell migrates in a tissue
-than to come up with the equations that rule the dynamics of cellular migration. Moreover, agent-based modeling is a
-powerful technique to model biological heterogeneity. It is also a very flexible approach to change levels of description
-and aggregation [4]. Tumors are dynamic complex systems wherein several entities, events, and conditions interact
-with each other resulting in growth, invasion, and metastases [31]. In this regards, agent-based modeling is an effective
-tool to model complex biological phenomena such as tumor growth and cancer therapy. In this research we propose
-an agent-based model which can predict the response of vascular solid tumor to irradiation. As declared before, the
-agent-based simulation methodology was chosen due to its flexibility for biological modeling and also its power for
-modeling heterogeneity)
+IAgent-Based Modeling (ABM) is a framework where individual agents operate according to predefined rules, making it particularly suitable for fields like sociology and biology, where entities such as cells can be viewed as agents obeying specific behaviors \cite{jalalimanesh2017simulation}. ABM offers a more intuitive way to represent micro-environments compared to traditional methods like Ordinary Differential Equations (ODE) or Partial Differential Equations (PDE), which require more complex mathematical formulations.
+
+As a bottom-up modeling approach, ABM allows agents to interact with their environment and with each other, resulting in the system's overall behavior emerging from these local interactions. In biological contexts, ABM provides a more detailed and natural way to model organisms, with population dynamics emerging from the behavior of individual entities. For example, describing the tumor micro-environment  is more intuitive with ABM than attempting to derive equations governing it. ABM is particularly useful for modeling biological heterogeneity and offers flexibility in adjusting the levels of detail and aggregation.
+
+Complex systems like tumors, which involve numerous interacting entities and processes that drive growth, invasion, and metastasis, are well-suited to ABM [31]. 
 
 Modeling cancer environment \cite{opasic2020cancersim} or also a agent based model coded where rules are frozen, cannot add new rules to specefic rules \cite{lopez2014estimating} used their own cell based agent model for estimating a radiotherapy dose treatment.
 GPU PhysiCell \cite{stack2022openacc}, a part of PhysiCell code is in the GPU and the times speed up, is an ongoing project designed to migrate portions of its serial CPU code to run on GPUs using OpenACC.
-GPU approaches very promising models, decrease the computionnal time,  that can lead more cells and more nearby to real biological models. Agent Based Models on GPU \cite{richmond2023flame} highly development or Gell \cite{du2023gell} which offered more than 150 speed up compared to PHysiCell mutli core \cite{du2023gell}. However Gell is less versatile and offers less possibility to build relevant biological models but still a good example of optimized software where performance is primordial. While Flame GPU 2 \cite{richmond2023flame}, he is a tradeoff between versatility and rapidity. In micro Biology, researchers mainly use PhysiCell due to the versatility and the easiest way to use it, compared to Gell or FLAMEGPU2, PhysiCell offered a no code model creation software called PhysiCell Studio.
+GPU approaches very promising models, decrease the computionnal time,  that can lead more cells and more nearby to real biological models. Agent Based Models on GPU \cite{richmond2023flame} highly development or Gell \cite{du2023gell} which offered more than 150 speed up compared to PHysiCell mutli core \cite{du2023gell}. However Gell is less versatile and offers less possibility to build relevant biological models but still a good example of optimized software where performance is primordial. While Flame GPU 2 \cite{richmond2023flame}, he is a tradeoff between versatility and rapidity. In micro Biology, researchers mainly use PhysiCell due to the versatility and the easiest way to use it, compared to Gell or FLAMEGPU2, specially FLAMEGPU2 is not focused on micro-biology some researchers use the framework to build cell microenvironments \cite{borau2024agent}, the cell microenvironment proposed has essential processes such as cell-cell interaction, extracellular matrix interactions, species diffusion, vascularization, cell migration and cell cycling. 
+PhysiCell offered a no code model creation software called PhysiCell Studio.
 
-## Agent Based Model and Reinforcement Learning
-Given an agent based model software ( NetLOGO) & Q-Learning algorithm researchers \cite{jalalimanesh2017simulation} had proposed a new approach, they used Q-Learning to optimize the treatment. The reinforcement learning algorithm has the goal to treat the disease without overusing radiotherapy in order to avoid healthy tissue.
+
 
 ## Bibliography
 @article{zeng2022optimizing,
@@ -201,5 +214,15 @@ Given an agent based model software ( NetLOGO) & Q-Learning algorithm researcher
   volume={133},
   pages={235--248},
   year={2017},
+  publisher={Elsevier}
+}
+
+@article{borau2024agent,
+  title={An agent-based model for cell microenvironment simulation using FLAMEGPU2},
+  author={Borau, C and Chisholm, R and Richmond, P and Walker, D},
+  journal={Computers in Biology and Medicine},
+  volume={179},
+  pages={108831},
+  year={2024},
   publisher={Elsevier}
 }
