@@ -69,28 +69,74 @@ $\hat{Q}_n\left(X_i, a\right)$ refers to the estimation of the outcome Y based o
 $\hat{p}_n\left(A_i \mid X_i\right)$ refers to the probability estimated.
 $\hat{Q}$ and $\hat{p}$ are estimated by machine learning algorithms , in particulalrly if there is enough data by deep learning algorithms.
 AIPWE is excellent to estimate treatment effects. AIPWE helps to estimate the outcomes under different treatment regimes. 
-Given the different formulas introduced, the aim of a treatment is maximizing expected outcome for a patient $i$
-$a_{i}^{*} =  \arg\max_{a\in A} (\mathbb{E}[Y^{*}(a)|X_{i}=x])$. Going, further we want to maximize accross all patients :
+Given the different formulas introduced, the aim of a treatment is to maximize the expected outcome for patient \(i\):
+\[
+a_{i}^{*} =  \arg\max_{a\in A} \mathbb{E}[Y^{*}(a) \mid X_{i}=x].
+\]
+Furthermore, we want to maximize the expected outcome across all patients:
+\[
+\mathbb{E}\left[Y^{*}(A^{*}(X_i))\right] = \frac{1}{n} \sum_{i=1}^{n} \mathbb{E}\left( Y^{*}(A^{*}(X_i)) \mid X_i \right).
+\]
+Here, \( Y^{*}(a_{i}^{*}) \) refers to the best conditional expectation of the outcome for patient \(i\).
 
-$\mathbb{E}\left[Y^{*}(A^{*}(X_i))\right] = \frac{1}{n} \sum_{i=1}^{n} \mathbb{E}\left( Y^{*}(A^{*}(X_i)) \mid X_i \right)$
-$Y^{*}(a_{i}^{*})$ refers to the best conditional expectation of the outcome for patient $i$.
-We can use these formulas to find the best treatment accross different treatments proposed where data is available but this approach requires already proposed treatments and does not allow to optimize a treatment. For extending, this formulation to treatment regime, we need to have $t$ time thus we propose a new formulation :
-$\overset{\wedge}\mu^{TAIPWE}_{a_{t},n}
- =\frac{1}{n} \sum_{i=1}^n\left(\hat{Q}_n\left(X_{i,t}, a_{t}\right)\right)+\frac{1}{n} \sum_{i=1}^n \frac{1_{A_{i,t}=a_{t}}}{\hat{p}_n\left(A_{i,t} \mid X_{i,t}\right)}\left(Y_{i,t}-\hat{Q}_n\left(X_{i,t}, a_{t}\right)\right)$
-For one patient, the covariate matrix is not the same in fac the covariate matrix can be health parameters such as molecule concentrations.
-Thus for each time steps, we would like to choose the best treatment, in our cases we can say there is one treatment with possible actions. In this case, the formula remains the same for example we can say there are three differents actions possible and for each time steps we would like to optimize the treatment not for only one patient for all patients, given there covariates, we would like to optimize the treatment at the end the formula is :
-$$
+These formulas can be used to find the best treatment across the different proposed treatments when data is available. However, this approach assumes that the treatments are already pre-specified and does not allow for the optimization of a treatment policy over time. To extend this formulation to dynamic treatment regimes, we need to account for treatment decisions at multiple time points.
+
+Thus, we propose a new formulation:
+\[
+\overset{\wedge}\mu^{TAIPWE}_{a_{t},n}
+ =\frac{1}{n} \sum_{i=1}^n\left(\hat{Q}_n\left(X_{i,t}, a_{t}\right)\right)+\frac{1}{n} \sum_{i=1}^n \frac{1_{A_{i,t}=a_{t}}}{\hat{p}_n\left(A_{i,t} \mid X_{i,t}\right)}\left(Y_{i,t}-\hat{Q}_n\left(X_{i,t}, a_{t}\right)\right).
+\]
+For one patient, the covariate matrix may vary over time; for example, the covariate matrix can represent changing health parameters. Therefore, at each time step, we would like to choose the best treatment. In our case, we assume there is one treatment with multiple possible actions. For each time step, we aim to optimize the treatment, not only for one patient but for all patients. Given their covariates, we aim to optimize the treatment over time. The resulting formulation is:
+\[
+\mathbb{E}\left[Y(A_{t}(X_{i,t}))\right] = \frac{1}{T} \sum_{t=1}^{T} \mathbb{E}\left[ Y(A_{t}(X_{i,t})) \mid X_{i,t} \right].
+\]
+However these new formulas are referring to Reinforcement Learning. 
+In fact Dynamic Treatment Regime is a specific field where Reinforcement Learning is applied : the primary goal is to optimize patient outcomes by selecting the best possible actions (treatments) based on the patient’s covariates (observations). This can be naturally formulated within the framework of \textbf{reinforcement learning (RL)}, where:
+
+\begin{itemize}
+    \item \textbf{States} \( S_t \) represent the patient’s covariates \( X_{i,t} \) at time step \( t \). These covariates capture relevant health information that evolves over time.
+    \item \textbf{Actions} \( A_t \) correspond to the treatments \( a_t \) chosen at each time step, where the objective is to select the treatment that maximizes the expected outcome.
+    \item \textbf{Rewards} \( R_t \) represent the observed outcomes \( Y_{i,t} \), which are the immediate effects of the treatment chosen at time \( t \). These outcomes can be interpreted as the feedback or "reward" that we aim to maximize.
+    \item \textbf{Policy} \( \pi(S_t) \) is analogous to the treatment decision rule \( A^*(X_{i,t}) \), defining a strategy for selecting actions (treatments) based on the current state (covariates). The policy \( \pi \) can be learned in RL to maximize long-term rewards.
+\end{itemize}
+
+The objective in the reinforcement learning framework is to find an \textbf{optimal policy} \( \pi^* \) that maximizes the \textbf{expected cumulative reward} over time. In the context of DTR, this corresponds to maximizing the total expected outcome from treatments across time steps \( t = 1, \ldots, T \), taking into account the evolution of patient covariates and treatment responses.
+
+Thus, we aim to maximize the following expected total reward (outcome):
+\[
+\mathbb{E}\left[\sum_{t=1}^{T} R_t \mid S_1 = s_1 \right] = \mathbb{E}\left[\sum_{t=1}^{T} Y_{i,t} \mid X_{i,1} = x_1 \right],
+\]
+where \( R_t = Y_{i,t} \) represents the reward (outcome) at time \( t \).
+
+In reinforcement learning, the \textbf{value function} \( V^\pi(S_t) \) is defined as the expected cumulative reward starting from state \( S_t \) under policy \( \pi \):
+\[
+V^\pi(S_t) = \mathbb{E}\left[ \sum_{k=t}^{T} R_k \mid S_t = s_t, \pi \right].
+\]
+This value function is analogous to the expected outcome in the treatment regime, and the goal is to find the policy \( \pi^* \) that maximizes \( V^\pi(S_t) \) for all states.
+
+In summary, by mapping the concepts of states, actions, rewards, and policies from the DTR setting to the RL framework, we can approach the treatment optimization problem as one of \textbf{reinforcement learning}. The task is to learn an optimal policy/ treatment strategy that selects actions (treatments) based on covariates (observations) to maximize the expected cumulative reward (outcome) over time.
 
 
-Finish [AIPWE](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6694251/)
-Try to speak a little bit about that
-Propose Neural AIPWE
-To Do [Model based](https://link.springer.com/content/pdf/10.1007/s11432-022-3696-5.pdf)
-
+Despite, the use of reinforcement learning framework researchers used supervised approach to find better dynamic treatment regime.
 In the domain of DTR, Researchers have chosen different techniques to find or to estimate better dynamic treatment regime. A pioneer article \cite{robins2008estimation} in the domain of dynamic treatment regime, 
 For schizophrenia, researchers has used stastical methods  \cite{shortreed2012estimating} to compare different treatments. Else Researchers used linear regression models to predict the survival benefit of their new schedule. Thanks to this predictive model, they focused on refining radiation schedules for patients \cite{ayala2021optimal}.
 
+To conclude, earlier approaches to treatment optimization primarily relied on supervised machine learning algorithms to predict patient outcomes from existing datasets. However, with the emergence of reinforcement learning (RL), researchers have increasingly adopted RL methods, as dynamic treatment regimes (DTR) can be viewed as a subfield of RL, specifically tailored for healthcare. DTR is essentially the application of RL to optimize treatments over time.
 
+In RL, two types of approaches are commonly used: offline and online reinforcement learning. Offline RL applies when data from past treatments are available, allowing the algorithm to learn from historical information. In contrast, online RL is used to generate and test new treatment regimes in real-time, exploring new strategies to find the optimal ones. While offline RL is challenging due to limited historical data, online RL requires creating a virtual model, or simulation environment, where an agent can be trained before being tested in real-world scenarios. This process can significantly accelerate treatment research, moving from model development to practical applications while saving time and resources.
+
+Furthermore, in both offline and online RL, key challenges such as robustness and domain randomization arise. Data collected from patients may be noisy, and differences between patients can cause a model to perform poorly if it is not carefully tuned. Ensuring the model's robustness across varying conditions and patient populations is essential to achieve reliable, generalizable treatment policies.
+
+
+## Domain Randomization \cite{awal2024injection},
+Given blood test, humans have biological values different these values are like hyperparameters to use in order to create a model nearby to the human mode, but training on the same hyperparameters can lead mistakes for different humans who do not have these hyperparameters as insights. Mathematically, the transition probablility between $P_{patient_{i}}(s_{t+1} \| s_{t},a_{t})$ is different from  $P_{patient_{j}}(s_{t+1} \| s_{t},a_{t})$, the agent learns $P_{patient_{i}}(s_{t+1} \| s_{t},a_{t})$ but the treatment would be wrong for the patient j caused by different dynamics different transition probabilities \cite{awal2024injection}. In others words, the transition probability from the simulator will different from the reality caused by a set of distribution of hyperparameters.
+## Robustness
+-
+-
+-
+-
+-
+-
 
 
 
@@ -261,4 +307,10 @@ PhysiCell offered a no code model creation software called PhysiCell Studio.
   pages={108831},
   year={2024},
   publisher={Elsevier}
+}
+@article{awal2024injection,
+  title={Injection Optimization at Particle Accelerators via Reinforcement Learning: From Simulation to Real-World Application},
+  author={Awal, Awal and Hetzel, Jan and Gebel, Ralf and Pretz, J{\"o}rg},
+  journal={arXiv preprint arXiv:2406.12735},
+  year={2024}
 }
