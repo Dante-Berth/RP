@@ -43,10 +43,46 @@ When there is no simulator and there are already data/ datasets available.
     - **Limited Exploration:** The agent's knowledge is limited to the experiences contained in the dataset, potentially leading to suboptimal policies if the dataset lacks diversity.
 
 
-## Dynamic Treatment Regime without RL
-It exists different approaches, one approach which is Augmented INverse Probability Weighted Estimators (AIPWE)
+## Different algorithms used in Dynamic Treatment Regime 
 
-Finish AIPWE
+It exists different approaches, one approach which is Augmented INverse Probability Weighted Estimators (AIPWE):
+AIPWE is an estimator combining regression based estimator and the invers probability weighted estimator.$X$ is the covariate, $A$ set of actions and $Y$ the response. 
+The objective is to estimate the potential outcome \( Y^{*}(a) \), 
+which represents the outcome that would be observed if a subject were assigned treatment \( a \).
+To evaluate the treatment effect, we compare the average outcome when all subjects receive treatment \( a \), 
+denoted by \( \mu_{a} = \mathbb{E}(Y^{*}(a)) \).
+
+Our goal is to estimate \( \mu_{a} \) using the observed data \( \{(X_{i}, A_{i}, Y_{i})\}_{i=1}^{n} \), where:
+\begin{itemize}
+    \item \( X_{i} \) represents covariates,
+    \item \( A_{i} \) is the treatment assignment, and
+    \item \( Y_{i} \) is the observed outcome for the \( i \)-th subject.
+\end{itemize}
+
+```math
+\overset{\wedge}\mu^{AIPWE}_{a,n}
+ =\frac{1}{n} \sum_{i=1}^n\left(\hat{Q}_n\left(X_i, a\right)\right)+\frac{1}{n} \sum_{i=1}^n \frac{1_{A_i=a}}{\hat{p}_n\left(A_i \mid X_i\right)}\left(Y_i-\hat{Q}_n\left(X_i, a\right)\right)
+```
+
+$1_{A_i=a}$ refers to the indicator function if the patient $i$ is part of treatment group a (or not).
+$\hat{Q}_n\left(X_i, a\right)$ refers to the estimation of the outcome Y based on X and treatment A for a patient $i$.
+$\hat{p}_n\left(A_i \mid X_i\right)$ refers to the probability estimated.
+$\hat{Q}$ and $\hat{p}$ are estimated by machine learning algorithms , in particulalrly if there is enough data by deep learning algorithms.
+AIPWE is excellent to estimate treatment effects. AIPWE helps to estimate the outcomes under different treatment regimes. 
+Given the different formulas introduced, the aim of a treatment is maximizing expected outcome for a patient $i$
+$a_{i}^{*} =  \arg\max_{a\in A} (\mathbb{E}[Y^{*}(a)|X_{i}=x])$. Going, further we want to maximize accross all patients :
+
+$\mathbb{E}\left[Y^{*}(A^{*}(X_i))\right] = \frac{1}{n} \sum_{i=1}^{n} \mathbb{E}\left( Y^{*}(A^{*}(X_i)) \mid X_i \right)$
+$Y^{*}(a_{i}^{*})$ refers to the best conditional expectation of the outcome for patient $i$.
+We can use these formulas to find the best treatment accross different treatments proposed where data is available but this approach requires already proposed treatments and does not allow to optimize a treatment. For extending, this formulation to treatment regime, we need to have $t$ time thus we propose a new formulation :
+$\overset{\wedge}\mu^{TAIPWE}_{a_{t},n}
+ =\frac{1}{n} \sum_{i=1}^n\left(\hat{Q}_n\left(X_{i,t}, a_{t}\right)\right)+\frac{1}{n} \sum_{i=1}^n \frac{1_{A_{i,t}=a_{t}}}{\hat{p}_n\left(A_{i,t} \mid X_{i,t}\right)}\left(Y_{i,t}-\hat{Q}_n\left(X_{i,t}, a_{t}\right)\right)$
+For one patient, the covariate matrix is not the same in fac the covariate matrix can be health parameters such as molecule concentrations.
+Thus for each time steps, we would like to choose the best treatment, in our cases we can say there is one treatment with possible actions. In this case, the formula remains the same for example we can say there are three differents actions possible and for each time steps we would like to optimize the treatment not for only one patient for all patients, given there covariates, we would like to optimize the treatment at the end the formula is :
+$$
+
+
+Finish [AIPWE](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6694251/)
 Try to speak a little bit about that
 Propose Neural AIPWE
 To Do [Model based](https://link.springer.com/content/pdf/10.1007/s11432-022-3696-5.pdf)
