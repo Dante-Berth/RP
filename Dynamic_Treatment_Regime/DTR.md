@@ -137,7 +137,9 @@ Given blood test, humans have biological values different these values are like 
 -
 -
 -
+## Modeling Biologicals systems thanks to ODE in particularly oncological environments
 
+Ordinary differential equations are mainly used for modeling dynamics, given data or given prior knowledge researchers have used ODE for modeling tumor progression or tumor
 
 
 ## Modeling Cellular Environments
@@ -150,8 +152,9 @@ Complex systems like tumors, which involve numerous interacting entities and pro
 
 Modeling cancer environment \cite{opasic2020cancersim} or also a agent based model coded where rules are frozen, cannot add new rules to specefic rules \cite{lopez2014estimating} used their own cell based agent model for estimating a radiotherapy dose treatment.
 GPU PhysiCell \cite{stack2022openacc}, a part of PhysiCell code is in the GPU and the times speed up, is an ongoing project designed to migrate portions of its serial CPU code to run on GPUs using OpenACC.
-GPU approaches very promising models, decrease the computionnal time,  that can lead more cells and more nearby to real biological models. Agent Based Models on GPU \cite{richmond2023flame} highly development or Gell \cite{du2023gell} which offered more than 150 speed up compared to PHysiCell mutli core \cite{du2023gell}. However Gell is less versatile and offers less possibility to build relevant biological models but still a good example of optimized software where performance is primordial. While Flame GPU 2 \cite{richmond2023flame}, he is a tradeoff between versatility and rapidity. In micro Biology, researchers mainly use PhysiCell due to the versatility and the easiest way to use it, compared to Gell or FLAMEGPU2, specially FLAMEGPU2 is not focused on micro-biology some researchers use the framework to build cell microenvironments \cite{borau2024agent}, the cell microenvironment proposed has essential processes such as cell-cell interaction, extracellular matrix interactions, species diffusion, vascularization, cell migration and cell cycling. 
-PhysiCell offered a no code model creation software called PhysiCell Studio.
+GPU approaches very promising models, decrease the computionnal time,  that can lead more cells and more nearby to real biological models. Agent Based Models on GPU \cite{richmond2023flame} highly development or Gell \cite{du2023gell} which offered more than 150 speed up compared to PHysiCell mutli core \cite{du2023gell}. However Gell is less versatile and offers less possibility to build relevant biological models but still a good example of optimized software where performance is primordial. While Flame GPU 2 \cite{richmond2023flame}, he is a tradeoff between versatility and rapidity. In micro Biology, researchers mainly use PhysiCell due to the versatility and the easiest way to use it, compared to Gell or FLAMEGPU2, specially FLAMEGPU2 is not focused on micro-biology some researchers use the framework to build cell microenvironments \cite{borau2024agent}, there is also dynamo focused on ABM in micro-environments \cite{breitwieser2022biodynamo}. Compared to the others PhysiCell has already implemented basic micro-cell environments but also an important framework called PhysiBoss which allows to add boolean models into cells
+besides with PhysiCell Studio it is no needed to code C++ because
+PhysiCell offered a no code model creation software called PhysiCell Studio \cite{heiland2024physicell}
 
 
 
@@ -313,4 +316,23 @@ PhysiCell offered a no code model creation software called PhysiCell Studio.
   author={Awal, Awal and Hetzel, Jan and Gebel, Ralf and Pretz, J{\"o}rg},
   journal={arXiv preprint arXiv:2406.12735},
   year={2024}
+}
+
+@article{breitwieser2022biodynamo,
+  title={BioDynaMo: a modular platform for high-performance agent-based simulation},
+  author={Breitwieser, Lukas and Hesam, Ahmad and De Montigny, Jean and Vavourakis, Vasileios and Iosif, Alexandros and Jennings, Jack and Kaiser, Marcus and Manca, Marco and Di Meglio, Alberto and Al-Ars, Zaid and others},
+  journal={Bioinformatics},
+  volume={38},
+  number={2},
+  pages={453--460},
+  year={2022},
+  publisher={Oxford University Press}
+}
+@article{heiland2024physicell,
+  title={PhysiCell Studio: a graphical tool to make agent-based modeling more accessible},
+  author={Heiland, Randy and Bergman, Daniel and Lyons, Blair and Waldow, Grant and Cass, Julie and da Rocha, Heber Lima and Ruscone, Marco and No{\"e}l, Vincent and Macklin, Paul},
+  journal={GigaByte},
+  volume={2024},
+  year={2024},
+  publisher={Gigascience Press}
 }
